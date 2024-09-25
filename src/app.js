@@ -12,7 +12,7 @@ app.set("json spaces", 4);
 
 // Routes.
 
-import userRoutes from './routes/user.routes.js';
+import employeesRoutes from './routes/employees.routes.js';
 
 
 // Middlewares.
@@ -23,7 +23,7 @@ app.use(morgan('dev'));
 
 // Routes.
 
-app.use('/api/users', userRoutes);
+app.use('/api/employee', employeesRoutes);
 
 app.listen(PORT)
 
