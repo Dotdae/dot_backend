@@ -23,7 +23,7 @@ app.use(morgan('dev'));
 
 // Routes.
 
-app.use('/api/employee', employeesRoutes);
+app.use('/api', employeesRoutes);
 
 app.listen(PORT)
 
