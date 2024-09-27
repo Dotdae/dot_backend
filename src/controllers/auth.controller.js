@@ -1,4 +1,6 @@
 import {pool} from "../db.js";
+import bcrypt from 'bcryptjs';
+
 
 
 export const authLogin = async (req, res) => {
@@ -9,7 +11,6 @@ export const authLogin = async (req, res) => {
 
         const [rows] = await pool.query('SELECT * FROM employee WHERE id = ? ', [employeeNumber]);
 
-        const {password} = rows[0]
 
          // Check if employee exist.
 
@@ -19,14 +20,27 @@ export const authLogin = async (req, res) => {
 
         }
 
-        if(employeePassword != password){
+        // Compare password.
+
+        const {password} = rows[0]
+
+        const isMatch = await bcrypt.compare(employeePassword, password)
+
+        if(!isMatch){
 
             return res.status(400).json({message: 'Password incorrect.'})
 
         }
 
-        res.json(rows[0]);
-        
+        const {id, nombre, edad, direccion, salario} = rows[0];
+
+        res.json({
+            id,
+            nombre,
+            edad,
+            direccion,
+            salario
+        });
         
 
     }

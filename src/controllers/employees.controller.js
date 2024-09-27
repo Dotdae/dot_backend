@@ -1,4 +1,5 @@
 import {pool} from "../db.js";
+import bcrypt from 'bcryptjs';
 
 // Get all employees.
 
@@ -58,9 +59,11 @@ export const createEmployee = async (req, res) => {
 
         const {nombre, password, edad, direccion, salario} = req.body;
 
+        const encryptPassword = await bcrypt.hash(password, 10);
+
         const [rows] = await pool.query(
             "INSERT INTO employee (nombre, password, edad, direccion, salario) VALUE (?, ?, ?, ?, ?)",
-            [nombre, password, edad, direccion, salario]
+            [nombre, encryptPassword, edad, direccion, salario]
         )
 
         res.status(201).json({"Número de empleado": rows.insertId, nombre})
