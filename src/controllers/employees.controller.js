@@ -1,5 +1,6 @@
 import {pool} from "../db.js";
 import bcrypt from 'bcryptjs';
+import pass from 'secure-random-password';
 
 // Get all employees.
 
@@ -57,7 +58,14 @@ export const createEmployee = async (req, res) => {
 
     try{
 
-        const {nombre, password, edad, direccion, salario} = req.body;
+        const {nombre, edad, direccion, salario} = req.body;
+
+        // Generate random password.
+
+        const password = pass.randomPassword({
+            length: 8,
+            characters: pass.digits
+        })
 
         const encryptPassword = await bcrypt.hash(password, 10);
 
@@ -66,7 +74,16 @@ export const createEmployee = async (req, res) => {
             [nombre, encryptPassword, edad, direccion, salario]
         )
 
-        res.status(201).json({"Número de empleado": rows.insertId, nombre})
+        res.status(201).json(
+            {
+            "Número de empleado": rows.insertId, 
+            contraseña: password,
+            nombre,
+            edad,
+            direccion, 
+            salario
+            }
+        )
 
     }
     catch(error){
