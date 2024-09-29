@@ -32,14 +32,15 @@ export const authLogin = async (req, res) => {
 
         }
 
-        const {id, nombre, edad, direccion, salario} = rows[0];
+        const {id, nombre, edad, direccion, salario, rol} = rows[0];
 
         res.json({
             id,
             nombre,
             edad,
             direccion,
-            salario
+            salario,
+            rol
         });
         
 

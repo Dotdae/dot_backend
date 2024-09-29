@@ -58,32 +58,46 @@ export const createEmployee = async (req, res) => {
 
     try{
 
-        const {nombre, edad, direccion, salario} = req.body;
+        const {nombre, edad, direccion, salario, rol} = req.body;
 
-        // Generate random password.
+        const roles = ['Empleado', 'Supervisor'];
 
-        const password = pass.randomPassword({
-            length: 8,
-            characters: pass.digits
-        })
+        // Check is rol is correct.
 
-        const encryptPassword = await bcrypt.hash(password, 10);
+        if(roles.includes(rol)){
+            
+            // Generate random password.
+    
+            const password = pass.randomPassword({
+                length: 8,
+                characters: pass.digits
+            })
+    
+            const encryptPassword = await bcrypt.hash(password, 10);
+    
+            const [rows] = await pool.query(
+                "INSERT INTO employee (nombre, password, edad, direccion, salario, rol) VALUE (?, ?, ?, ?, ?, ?)",
+                [nombre, encryptPassword, edad, direccion, salario, rol]
+            )
+    
+            res.status(201).json(
+                {
+                "Número de empleado": rows.insertId, 
+                contraseña: password,
+                nombre,
+                edad,
+                direccion, 
+                salario
+                }
+            )
 
-        const [rows] = await pool.query(
-            "INSERT INTO employee (nombre, password, edad, direccion, salario) VALUE (?, ?, ?, ?, ?)",
-            [nombre, encryptPassword, edad, direccion, salario]
-        )
+        }
+        else{
 
-        res.status(201).json(
-            {
-            "Número de empleado": rows.insertId, 
-            contraseña: password,
-            nombre,
-            edad,
-            direccion, 
-            salario
-            }
-        )
+            return res.status(404).json({message: 'Invalid rol.'})
+
+        }
+
 
     }
     catch(error){
