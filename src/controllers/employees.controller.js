@@ -87,7 +87,8 @@ export const createEmployee = async (req, res) => {
                 nombre,
                 edad,
                 direccion, 
-                salario
+                salario,
+                rol
                 }
             )
 

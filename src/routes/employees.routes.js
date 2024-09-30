@@ -2,12 +2,11 @@ import { Router } from "express";
 import { getEmployees, getEmployee, createEmployee, updateEmployee, deleteEmployee } from "../controllers/employees.controller.js";
 
 const router = Router();
+// Supervisor routes.
 
-// Login/Get employee.
+// Get employee.
 
 router.get('/employees/:id', getEmployee);
-
-// Supervisor routes.
 
 // Get all employees.
 

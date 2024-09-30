@@ -1,6 +1,7 @@
 import express from "express"
 import morgan from "morgan"
 import cors from 'cors'
+import cookieParser from "cookie-parser";
 
 // Settings.
 
@@ -21,7 +22,13 @@ import authRoutes from './routes/auth.routes.js';
 
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:4200', // We have to set the origin to use credentials.
+    credentials: true,                // Allow sends cookies.
+    allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'], // Allow custom headers.
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific methods.
+}));
+app.use(cookieParser());
 
 
 // Routes.

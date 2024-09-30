@@ -1,7 +1,6 @@
 import {pool} from "../db.js";
 import bcrypt from 'bcryptjs';
-
-
+import { createAccessToken } from '../libs/jwt.js';
 
 export const authLogin = async (req, res) => {
 
@@ -34,15 +33,22 @@ export const authLogin = async (req, res) => {
 
         const {id, nombre, edad, direccion, salario, rol} = rows[0];
 
-        res.json({
+        // Create token.
+
+        const token = await createAccessToken({id})
+
+        // Save token in cookie.
+
+        res.cookie('token', token, {
+            httpOnly: true, // Access only in server side.
+        }).json({
             id,
             nombre,
             edad,
             direccion,
             salario,
             rol
-        });
-        
+        })
 
     }
     catch(error){
