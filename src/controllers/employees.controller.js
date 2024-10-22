@@ -1,4 +1,4 @@
-import {pool} from "../db.js";
+import { Employee } from "../models/Employee.model.js";
 import bcrypt from 'bcryptjs';
 import pass from 'secure-random-password';
 
@@ -8,9 +8,9 @@ export const getEmployees = async (req, res) => {
 
     try{
 
-        const [rows] = await pool.query('SELECT * FROM employee');
+        const data = await Employee.findAll();
 
-        res.json(rows);
+        res.json(data);
 
     }
     catch (error){
@@ -29,17 +29,21 @@ export const getEmployee = async (req, res) => {
 
         const { id } = req.params;
 
-        const [rows] = await pool.query('SELECT * FROM employee WHERE id = ?', [id]);
+        const data = await Employee.findAll({
+            where: {
+                id
+            }
+        })
 
         // Check if employee exist.
 
-        if (rows.length <= 0){
+        if (data.length <= 0){
 
             return res.status(400).json({message: 'Employee not found'})
 
         }
 
-        res.json(rows[0]);
+        res.json(data);
 
 
     }
@@ -50,7 +54,6 @@ export const getEmployee = async (req, res) => {
     }
 
 }
-
 
 // Register new employee.
 
@@ -74,15 +77,23 @@ export const createEmployee = async (req, res) => {
             })
     
             const encryptPassword = await bcrypt.hash(password, 10);
-    
-            const [rows] = await pool.query(
-                "INSERT INTO employee (nombre, password, edad, direccion, salario, rol) VALUE (?, ?, ?, ?, ?, ?)",
-                [nombre, encryptPassword, edad, direccion, salario, rol]
-            )
-    
+
+            const user = await Employee.create({
+                nombre,
+                edad,
+                direccion,
+                password: encryptPassword,
+                salario,
+                rol,
+                user_image: 'image.jpg'
+            })
+
+
+            const { id } = user.dataValues;
+
             res.status(201).json(
                 {
-                "Número de empleado": rows.insertId, 
+                "Número de empleado": id, 
                 contraseña: password,
                 nombre,
                 edad,
@@ -103,7 +114,8 @@ export const createEmployee = async (req, res) => {
     }
     catch(error){
 
-        return res.status(500).json({message: "Something goes wrong"})
+        console.error(error);
+        return res.status(500).json({message: "Something goes wrong"});
 
     }
    
@@ -119,17 +131,28 @@ export const updateEmployee = async (req, res) => {
 
         const {nombre, edad, direccion, salario} = req.body;
 
-        const [result] = await pool.query('UPDATE employee SET nombre = ?, edad = ?, direccion = ?, salario = ? WHERE id = ?', [nombre, edad, direccion, salario, id]);
+        const data = await Employee.update(
+            { nombre, edad, direccion, salario},
+            {
+                where: {
+                    id,
+                },
+            }
+        );
 
-        if(result.affectedRows === 0){
+        if(data[0] === 0){
 
             return res.status(404).json({message: 'Employee not found.'})
 
         }
 
-        const [rows] = await pool.query('SELECT * FROM employee WHERE id = ?', [id]);
+        const employeeUpdated = await Employee.findAll({
+            where: {
+                id
+            }
+        })
 
-        res.json(rows[0]);
+        res.json(employeeUpdated);
 
     }
     catch(error){
@@ -140,7 +163,6 @@ export const updateEmployee = async (req, res) => {
 
 }
 
-
 // Delete employee.
 
 export const deleteEmployee = async(req, res) => {
@@ -149,9 +171,15 @@ export const deleteEmployee = async(req, res) => {
 
         const { id } = req.params;
 
-        const [rows] = await pool.query('DELETE FROM employee WHERE id = ?', [id]);
+        const data = await Employee.destroy({
+            where: {
+                id
+            }
+        });
 
-        if(rows.affectedRows <= 0){
+        console.log(data);
+
+        if(data === 0){
 
             return res.status(404).json({message: 'Employee not found.'});
 

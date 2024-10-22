@@ -1,4 +1,4 @@
-import {pool} from "../db.js";
+import { Employee } from "../models/Employee.model.js";
 import bcrypt from 'bcryptjs';
 import { createAccessToken } from '../libs/jwt.js';
 
@@ -6,14 +6,17 @@ export const authLogin = async (req, res) => {
 
     try{
 
-        const {employeeNumber, employeePassword } = req.body;
+        const {numeroEmpleado, empleadoPassword } = req.body;
 
-        const [rows] = await pool.query('SELECT * FROM employee WHERE id = ? ', [employeeNumber]);
-
+        const employee = await Employee.findAll({
+            where: {
+                id: numeroEmpleado,
+            }
+        });
 
          // Check if employee exist.
 
-         if (rows.length <= 0){
+         if (employee.length <= 0){
 
             return res.status(400).json({message: 'Employee not found'})
 
@@ -21,9 +24,9 @@ export const authLogin = async (req, res) => {
 
         // Compare password.
 
-        const {password} = rows[0]
+        const {password} = employee[0].dataValues;
 
-        const isMatch = await bcrypt.compare(employeePassword, password)
+        const isMatch = await bcrypt.compare(empleadoPassword, password)
 
         if(!isMatch){
 
@@ -31,7 +34,7 @@ export const authLogin = async (req, res) => {
 
         }
 
-        const {id, nombre, edad, direccion, salario, rol} = rows[0];
+        const {id, nombre, edad, direccion, salario, rol} = employee[0].dataValues;
 
         // Create token.
 
