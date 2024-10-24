@@ -33,16 +33,13 @@ export const Employee = sequelize.define(
         rol: {
             type: DataTypes.ENUM('Empleado', 'Supervisor'),
             defaultValue: 'Empleado',
-            allowNull: false
         },
         status: {
             type: DataTypes.ENUM('Activo', 'Inactivo'),
             defaultValue: 'Activo',
-            allowNull: false
         },
         user_image: {
             type: DataTypes.STRING,
-            allowNull: false
         }
     },
     {
