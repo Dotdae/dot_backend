@@ -61,3 +61,54 @@ export const authLogin = async (req, res) => {
     }
 
 }
+
+export const authLogout = async (req, res) => {
+
+    res.cookie('token', '', {
+        expires: new Date (0)
+    })
+
+    return res.sendStatus(200);
+
+}
+
+export const authProfile = async (req, res) => {
+
+    try {
+
+        const employeeFound = await Employee.findOne(
+            {
+                where: {
+                    id: req.params.id
+                }
+            }
+        )
+
+        if(!employeeFound) return res.status(400).json(
+            {
+                message: 'User not found.'
+            }
+        );
+
+
+        const {id, nombre, edad, direccion, salario, rol, status, user_image} = employeeFound.dataValues;
+
+        return res.json({
+            id,
+            nombre,
+            edad,
+            direccion,
+            salario,
+            rol,
+            status,
+            user_image
+        });
+
+    }
+    catch (error){
+
+        return res.status(500).json({message: 'Something went wrong.'})
+
+    }
+
+}
