@@ -15,7 +15,7 @@ export const getEmployees = async (req, res) => {
     }
     catch (error){
 
-        return res.status(500).json({message: '+Something goes wrong.'})
+        return res.status(500).json({message: 'Something goes wrong.'})
 
     }
 
@@ -114,7 +114,6 @@ export const createEmployee = async (req, res) => {
     }
     catch(error){
 
-        console.error(error);
         return res.status(500).json({message: "Something goes wrong"});
 
     }
@@ -177,7 +176,6 @@ export const deleteEmployee = async(req, res) => {
             }
         });
 
-        console.log(data);
 
         if(data === 0){
 

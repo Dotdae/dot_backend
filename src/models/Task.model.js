@@ -9,6 +9,15 @@ export const Task = sequelize.define(
             primaryKey: true,
             autoIncrement: true
         },
+        titulo: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        
+        categoria:{
+            type: DataTypes.ENUM('Reparación', 'Mantenimiento'),
+            allowNull: false
+        },
         empleado_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -17,16 +26,16 @@ export const Task = sequelize.define(
                 key: 'id'
             }
         },
-        sector_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'Sectores',
-                key: 'id'
-            }
+        prioridad: {
+            type: DataTypes.ENUM('Alta', 'Media', 'Baja'),
+            allowNull: false
         },
-        titulo: {
-            type: DataTypes.STRING,
+        fecha_limite: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        hora_limite: {
+            type: DataTypes.TIME,
             allowNull: false
         },
         descripcion: {
@@ -38,13 +47,9 @@ export const Task = sequelize.define(
             defaultValue: 'Pendiente',
             allowNull: false
         },
-        fecha_limite: {
-            type: DataTypes.DATE,
-            allowNull: false
-        }
     },
     {
-        timestamps: true,
+        timestamps: false,
         tableName: 'Tareas'
     }
 );

@@ -16,6 +16,7 @@ app.set("json spaces", 4);
 
 import employeesRoutes from './routes/employees.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import tasksRoutes from './routes/tasks.route.js';
 
 
 // Middlewares.
@@ -35,6 +36,7 @@ app.use(cookieParser());
 
 app.use('/api', employeesRoutes);
 app.use('/api', authRoutes);
+app.use('/api', tasksRoutes);
 
 app.listen(PORT)
 
