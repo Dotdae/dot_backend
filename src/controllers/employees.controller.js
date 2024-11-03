@@ -43,7 +43,7 @@ export const getEmployee = async (req, res) => {
 
         }
 
-        res.json(data);
+        res.json(data[0]);
 
 
     }
@@ -151,6 +151,8 @@ export const updateEmployee = async (req, res) => {
             }
         })
 
+        // Fix response.
+
         res.json(employeeUpdated);
 
     }
@@ -170,12 +172,12 @@ export const deleteEmployee = async(req, res) => {
 
         const { id } = req.params;
 
+
         const data = await Employee.destroy({
             where: {
                 id
             }
         });
-
 
         if(data === 0){
 

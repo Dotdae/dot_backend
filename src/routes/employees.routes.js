@@ -4,13 +4,13 @@ import { getEmployees, getEmployee, createEmployee, updateEmployee, deleteEmploy
 const router = Router();
 // Supervisor routes.
 
-// Get employee.
-
-router.get('/employees/:id', getEmployee);
-
 // Get all employees.
 
 router.get('/employees', getEmployees);
+
+// Get employee.
+
+router.get('/employees/:id', getEmployee);
 
 // Register new employee.
 
