@@ -61,7 +61,7 @@ export const createEmployee = async (req, res) => {
 
     try{
 
-        const {nombre, edad, direccion, salario, rol} = req.body;
+        const {nombre, email, edad, direccion, salario, rol} = req.body;
 
         const roles = ['Empleado', 'Supervisor'];
 
@@ -80,6 +80,7 @@ export const createEmployee = async (req, res) => {
 
             const user = await Employee.create({
                 nombre,
+                email,
                 edad,
                 direccion,
                 password: encryptPassword,
@@ -96,6 +97,7 @@ export const createEmployee = async (req, res) => {
                 "Número de empleado": id, 
                 contraseña: password,
                 nombre,
+                email,
                 edad,
                 direccion, 
                 salario,
