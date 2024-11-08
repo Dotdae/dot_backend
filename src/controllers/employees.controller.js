@@ -1,6 +1,7 @@
 import { Employee } from "../models/Employee.model.js";
 import bcrypt from 'bcryptjs';
 import pass from 'secure-random-password';
+import { mailService } from "../libs/mailService.js";
 
 // Get all employees.
 
@@ -91,6 +92,8 @@ export const createEmployee = async (req, res) => {
 
 
             const { id } = user.dataValues;
+
+            mailService(nombre, email, id, password)
 
             res.status(201).json(
                 {
