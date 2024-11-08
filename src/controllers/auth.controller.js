@@ -8,6 +8,8 @@ export const authLogin = async (req, res) => {
 
         const {numeroEmpleado, empleadoPassword } = req.body;
 
+        console.log(numeroEmpleado, empleadoPassword)
+
         const employee = await Employee.findAll({
             where: {
                 id: numeroEmpleado,
