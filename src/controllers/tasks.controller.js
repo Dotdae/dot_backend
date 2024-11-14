@@ -21,19 +21,19 @@ export const getAllTasks = async (req, res) => {
 
 // Single task.
 
-export const getTask = async (req, res) => {
+export const getTaskByEmployee = async (req, res) => {
 
     try{
 
-        const { id } = req.params;
+        const { empleado_id } = req.params;
 
-        const task = await Task.findOne({
+        const task = await Task.findAll({
             where: {
-                id
+                empleado_id
             }
         });
 
-        if (!task) return res.status(400).json({ message: 'Task not found'});
+        if (!task) return res.status(400).json({ message: 'No se han encontrado tareas para este empleado.'});
 
         res.json(task);
 
@@ -53,10 +53,11 @@ export const createTask = async (req, res) => {
 
     try{
 
+        const { empleado_id } = req.params
 
         // Name, Category, Worker, Priority, Limit_Date, Time, Description
 
-        const {titulo, categoria, empleado_id, prioridad, fecha_limite,  hora_limite, descripcion}  = req.body;
+        const {titulo, categoria, prioridad, fecha_limite,  hora_limite, descripcion}  = req.body;
 
         // TB validate prio and category.
 
@@ -67,7 +68,8 @@ export const createTask = async (req, res) => {
             prioridad,
             fecha_limite,
             hora_limite,
-            descripcion
+            descripcion,
+            status: 'Pendiente'
         });
 
 
