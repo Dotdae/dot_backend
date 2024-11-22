@@ -62,7 +62,7 @@ export const createEmployee = async (req, res) => {
 
     try{
 
-        const {nombre, email, edad, direccion, salario, rol} = req.body;
+        const {nombre, sexo, email, edad, direccion, salario, rol} = req.body;
 
         const roles = ['Empleado', 'Supervisor'];
 
@@ -81,6 +81,7 @@ export const createEmployee = async (req, res) => {
 
             const user = await Employee.create({
                 nombre,
+                sexo,
                 email,
                 edad,
                 direccion,
@@ -98,6 +99,7 @@ export const createEmployee = async (req, res) => {
             res.status(201).json(
                 {
                 "Número de empleado": id, 
+                sexo,
                 contraseña: password,
                 nombre,
                 email,

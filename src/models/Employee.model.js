@@ -14,6 +14,10 @@ export const Employee = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false
         },
+        sexo: {
+            type: DataTypes.ENUM('Masculino', 'Femenino'),
+            allowNull: false
+        },
         email: {
             type: DataTypes.STRING,
             allowNull: false

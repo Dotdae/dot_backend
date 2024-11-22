@@ -55,9 +55,11 @@ export const createTask = async (req, res) => {
 
         const { empleado_id } = req.params
 
+        console.log(empleado_id);
+
         // Name, Category, Worker, Priority, Limit_Date, Time, Description
 
-        const {titulo, categoria, prioridad, fecha_limite,  hora_limite, descripcion}  = req.body;
+        const {titulo, categoria, prioridad, fecha_limite,  hora_limite, descripcion}  = req.body.task;
 
         // TB validate prio and category.
 
