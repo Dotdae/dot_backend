@@ -27,8 +27,6 @@ app.use(morgan('dev'));
 app.use(cors({
     origin: 'http://localhost:4200', // We have to set the origin to use credentials.
     credentials: true,                // Allow sends cookies.
-    allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'], // Allow custom headers.
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific methods.
 }));
 app.use(cookieParser());
 

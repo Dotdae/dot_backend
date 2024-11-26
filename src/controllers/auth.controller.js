@@ -46,6 +46,8 @@ export const authLogin = async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true, // Access only in server side.
+            secure: false,            // Cambiar a true en HTTPS
+            sameSite: 'lax',          // Control de cookies en solicitudes cruzadas
         }).json({
             id,
             nombre,
@@ -67,9 +69,9 @@ export const authLogin = async (req, res) => {
 export const authLogout = async (req, res) => {
 
     res.cookie('token', '', {
-        expires: new Date (0)
-    })
-
-    return res.sendStatus(200);
+      expires: new Date(0),
+    });
+  
+    return res.status(200).json({ message: 'Logout successful' }); 
 
 }
