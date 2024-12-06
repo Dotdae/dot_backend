@@ -97,7 +97,7 @@ export const updateTask = async (req, res) =>{
 
         const {id } = req.params;
 
-        const {titulo, categoria, prioridad, fecha_limite,  hora_limite, descripcion}  = req.body;
+        const {titulo, categoria, prioridad, fecha_limite, hora_limite, descripcion}  = req.body;
         
         const taskData = await Task.update(
             {titulo, categoria, prioridad, fecha_limite, hora_limite, descripcion},
@@ -119,6 +119,40 @@ export const updateTask = async (req, res) =>{
         });
 
         res.json(taskUpdated);
+
+
+    }
+    catch(error){
+
+        return res.status(500).json({message: "Something goes wrong."})
+
+    }
+
+}
+
+export const updateTaskStatus = async (req, res) => {
+
+    try{
+
+        const { id } = req.params; 
+
+        const { status } = req.body;
+
+        const taskData = await Task.update(
+            { status },
+            {
+                where: {
+                    id
+                }
+            }
+        )
+
+        if(taskData[0] === 0){
+            return res.status(404).json({message: 'Task not found.'})
+        }
+
+      
+        res.status(200);
 
 
     }
