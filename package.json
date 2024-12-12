@@ -22,7 +22,8 @@
     "mysql2": "^3.11.3",
     "nodemailer": "^6.9.16",
     "secure-random-password": "^0.2.3",
-    "sequelize": "^6.37.4"
+    "sequelize": "^6.37.4",
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.6"

@@ -3,6 +3,7 @@ import { Log } from "../models/Log.model.js";
 import { Notification } from "../models/Notification.models.js";
 import { Sector } from "../models/Sector.model.js";
 import { Task } from "../models/Task.model.js"
+import { Message } from "../models/Message.model.js";
 
 export const startDB = async () => {
     
@@ -13,6 +14,7 @@ export const startDB = async () => {
         await Notification.sync();
         await Sector.sync();
         await Task.sync();
+        await Message.sync();
         console.log("Tablas sincronizadas correctamente");
 
 
