@@ -15,6 +15,19 @@ export const Sector = sequelize.define(
         },
         descripcion: {
             type: DataTypes.TEXT
+        },
+        empleado_id:{
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        numero_empleados:{
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        status: {
+            type: DataTypes.ENUM('Abierto', 'Cerrado'),
+            defaultValue: 'Abierto',
+            allowNull: false
         }
     },
     {

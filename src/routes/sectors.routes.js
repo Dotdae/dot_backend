@@ -6,7 +6,7 @@ const router = Router();
 router.get('/sectors', getSectors);
 router.get('/sector/:id', getSector);
 router.post('/sector', createSector);
-router.put('/sector/:id', updateSector);
+router.put('/sector', updateSector);
 router.delete('/sector/:id', deleteSector);
 
 export default router;

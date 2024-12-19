@@ -48,6 +48,10 @@ export const Employee = sequelize.define(
         },
         user_image: {
             type: DataTypes.STRING,
+        },
+        sector_actual: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     },
     {

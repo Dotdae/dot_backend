@@ -42,6 +42,10 @@ export const Task = sequelize.define(
             type: DataTypes.TEXT,
             allowNull: false
         },
+        sector: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         status: {
             type: DataTypes.ENUM('Pendiente', 'En proceso', 'Completada'),
             defaultValue: 'Pendiente',

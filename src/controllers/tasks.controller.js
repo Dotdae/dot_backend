@@ -1,5 +1,6 @@
-import { where } from "sequelize";
 import { Task } from "../models/Task.model.js";
+import { Employee } from "../models/Employee.model.js";
+import { Sector } from "../models/Sector.model.js";
 
 
 // All tasks.
@@ -47,6 +48,31 @@ export const getTaskByEmployee = async (req, res) => {
 
 }
 
+export const getDoneTasks = async (req, res) => {
+
+    try{
+
+        const tasks = await Task.findAll({
+            where: {
+                status: 'Completada'
+            }
+        })
+
+        if (!tasks) return res.status(400).json({ message: 'No se han encontrado tareas para este empleado.'});
+
+        res.json(tasks);
+
+
+    }
+    catch (error){
+
+        return res.status(500).json({message: 'Something goes wrong.'})
+
+    }
+
+}
+
+
 // Create new task.
 
 export const createTask = async (req, res) => {
@@ -55,11 +81,11 @@ export const createTask = async (req, res) => {
 
         const { empleado_id } = req.params
 
-        console.log(empleado_id);
-
         // Name, Category, Worker, Priority, Limit_Date, Time, Description
 
-        const {titulo, categoria, prioridad, fecha_limite,  hora_limite, descripcion}  = req.body.task;
+        const {titulo, categoria, prioridad, fecha_limite,  hora_limite, descripcion, sector}  = req.body.task;
+
+        await Sector.increment('numero_empleados', { where: { nombre: sector }});
 
         // TB validate prio and category.
 
@@ -71,6 +97,7 @@ export const createTask = async (req, res) => {
             fecha_limite,
             hora_limite,
             descripcion,
+            sector,
             status: 'Pendiente'
         });
 
@@ -95,7 +122,7 @@ export const updateTask = async (req, res) =>{
     try{
 
 
-        const {id } = req.params;
+        const { id } = req.params;
 
         const {titulo, categoria, prioridad, fecha_limite, hora_limite, descripcion}  = req.body;
         
@@ -162,6 +189,37 @@ export const updateTaskStatus = async (req, res) => {
 
     }
 
+}
+
+export const updateTaskTime = async (req, res) => {
+
+    try{
+
+        const { id } = req.params; 
+
+        const { hora_limite } = req.body;
+
+        const taskData = await Task.update(
+            { hora_limite },
+            {
+                where: {
+                    id
+                }
+            }
+        )
+
+        if(taskData[0] === 0){
+            return res.status(404).json({message: 'Task not found.'})
+        }
+
+      
+        res.status(200);
+    }
+    catch(error){
+
+        return res.status(500).json({message: "Something goes wrong."})
+
+    }
 }
 
 // Delete task.

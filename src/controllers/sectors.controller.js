@@ -73,44 +73,30 @@ export const createSector = async (req, res) => {
 }
 
 export const updateSector = async (req, res) => {
+    try {
+        const { nombre } = req.body;
+        console.log(nombre);
 
-    try{
+        // Decrementar el número de empleados
+        const sectorUpdated = await Sector.decrement('numero_empleados', { where: { nombre } });
 
-        const { id } = req.params;
-
-        const { nombre, descripcion } = req.body;
-
-        const sectorUpdated = await Sector.update(
-            {nombre, descripcion},
-            {
-                where: {
-                    id,
-                }
-            }
-        );
-
-        if(sectorUpdated[0] === 0){
-
-            return res.status(404).json({message: 'Sector not found.'})
-
+        // Si no se encontró el sector, devolver un error 404
+        if (sectorUpdated[0] === 0) {
+            return res.status(404).json({ message: 'Sector not found.' });
         }
 
+        // Buscar el sector actualizado
         const sector = await Sector.findOne({
-            where: {
-                id
-            }
-        })
+            where: { nombre }
+        });
 
+        // Devolver el sector actualizado
         res.json(sector);
-
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Something went wrong.' });
     }
-    catch(error){
-
-        return res.status(500).json({messages: 'Something goes wrong.'})
-
-    }
-
-}
+};
 
 export const deleteSector = async (req, res) => {
 
