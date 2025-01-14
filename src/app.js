@@ -27,9 +27,11 @@ import sectorsRoutes from './routes/sectors.routes.js';
 
 app.use(express.json());
 app.use(morgan('dev'));
+const allowedOrigins = ['https://dot-front-sigma.vercel.app'];
 app.use(cors({
-    origin: 'https://dot-front-sigma.vercel.app/', // We have to set the origin to use credentials.
-    credentials: true,                // Allow sends cookies.
+    origin: allowedOrigins, // Permite solo tu frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
+    credentials: true, // Si necesitas enviar cookies o encabezados de autenticación
 }));
 app.use(cookieParser());
 

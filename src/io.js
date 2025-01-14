@@ -6,9 +6,9 @@ export default function configurationChat(server) {
 
     const io = new SocketServer(server, {
         cors: {
-            origin: 'https://dot-backend-dma3.onrender.com/', // We have to set the origin to use credentials.
-            methods: ['GET', 'POST'],
-            credentials: true,
+            origin: 'https://dot-front-sigma.vercel.app', // Tu dominio de frontend
+            methods: ['GET', 'POST'], // Métodos permitidos
+            credentials: true, // Si usas cookies o encabezados personalizados
         }
     })
 
