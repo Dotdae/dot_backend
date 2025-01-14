@@ -32,6 +32,6 @@ export const Sector = sequelize.define(
     },
     {
         timestamps: true,
-        tableName: 'Sectores'
+        tableName: 'sectores'
     }
 ); 

@@ -54,6 +54,6 @@ export const Task = sequelize.define(
     },
     {
         timestamps: false,
-        tableName: 'Tareas'
+        tableName: 'tareas'
     }
 );

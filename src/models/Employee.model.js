@@ -56,6 +56,6 @@ export const Employee = sequelize.define(
     },
     {
         timestamps: true,
-        tableName: 'Empleados'
+        tableName: 'empleados'
     }
 );

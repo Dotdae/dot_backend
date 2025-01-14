@@ -29,6 +29,6 @@ export const Notification = sequelize.define(
     },
     {
         timestamps: true,
-        tableName: 'Notificaciones'
+        tableName: 'notificaciones'
     }
 );
