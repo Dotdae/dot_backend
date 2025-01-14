@@ -28,7 +28,7 @@ import sectorsRoutes from './routes/sectors.routes.js';
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors({
-    origin: 'http://localhost:4200', // We have to set the origin to use credentials.
+    origin: 'https://dot-front-sigma.vercel.app/', // We have to set the origin to use credentials.
     credentials: true,                // Allow sends cookies.
 }));
 app.use(cookieParser());
