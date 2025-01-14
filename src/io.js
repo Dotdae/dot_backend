@@ -6,7 +6,7 @@ export default function configurationChat(server) {
 
     const io = new SocketServer(server, {
         cors: {
-            origin: 'http://localhost:4200', // We have to set the origin to use credentials.
+            origin: 'https://dot-backend-dma3.onrender.com/', // We have to set the origin to use credentials.
             methods: ['GET', 'POST'],
             credentials: true,
         }
